@@ -44,7 +44,11 @@
      }else{
        user.USER_NAME = name;
        user.TEST_NAME = test;
-       pd.startAction(user);
+       int time = 0;
+       try{
+         time = Integer.parseInt(request.getParameter("time"));
+       }catch(Exception e){}
+       pd.startAction(user,time);
      }     
    }
    if (mode.equalsIgnoreCase("stop")){
@@ -102,7 +106,12 @@
        <p>
        <label>Введите ваше имя<br></label>    
        <input name="name" type="text" size="20" maxlength="45" value="<%=user.USER_NAME%>">
-       </p>       
+       </p>
+       <p>
+       <label>Максимальное время теста<br></label>    
+       <input name="time" type="text" size="20" maxlength="45" value="60"> минут
+       </p>
+       
     <p>                
      <input type="submit" name="submit" value="Начать тест" class="w3-button w3-teal" />
     </p>   

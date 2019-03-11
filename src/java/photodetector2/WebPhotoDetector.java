@@ -174,7 +174,7 @@ public class WebPhotoDetector implements WebPhotoDetectorEvent {
   public Map<String, PD_USER> users = null;
   int HIGTLIGHT_VIDEO = 0;
 
-  public void startAction(UserInfo ui) throws UserException {
+  public void startAction(UserInfo ui, int min) throws UserException {
     CURRENT_IMAGE_FILE_NAME = "";
     HIGTLIGHT_VIDEO = configTools.getHIGHLIGHT_VIDEO();
     PD_USER user = PD_USER.dbControl.getItem(con, "UNAME=?", ui.USER_NAME);
@@ -217,7 +217,18 @@ public class WebPhotoDetector implements WebPhotoDetectorEvent {
       LAST_ERROR = "Please check camera connection " + e.getMessage();
       stopAction(ui);
     }
+    
+    if (min>0){
+      stopActionTimer.setRepeats(false);
+      //stopActionTimer.setDelay(min*60*1000);
+      stopActionTimer.setInitialDelay(min*60*1000);
+      stopActionTimer.start();
+    }
   }
+  
+  public Timer stopActionTimer = new Timer(0, (e) -> {
+    stopAction(null);
+  });
 
   public void closeCameraGraber() {
     try {
@@ -242,6 +253,7 @@ public class WebPhotoDetector implements WebPhotoDetectorEvent {
     closeCameraGraber();
     CURRENT_USER = null;
     CURRENT_TEST = null;
+    stopActionTimer.stop();
   }
  
   Timer cameraTimer = new Timer(1000, (e) -> {
