@@ -63,39 +63,35 @@
 <p>
   <h3>Система прокторинга</h3>
   <p/>
-  <% if (pd.testIsStarted()) { %>
-    <h3>Идёт тест</h3>
-    <a href="index.jsp?mode=stop" class="w3-button w3-teal">Закончить тест</a> <br/>
-    <% PD_TEST test = pd.CURRENT_TEST;
-       long t = (Calendar.getInstance().getTimeInMillis()-test.START_AT.getTimeInMillis())/1000;       
-    %>
-    Дата тест : <%=test.START_AT.getDateAsYYYYMMDD_andTime("-", ":") %><br/>
-    Тестируемый : <%=test.FIO %><br/>
-    Название теста : <%=test.TEST_NAME %><br/>
-    Время теста : <%=t/60 %> минут <%=(t-t/60*60) %> секунд<br/>       
-    <p> 
-      <a href="index.jsp" class="w3-button w3-teal">Обновить</a> 
-    </p>
-    <div class="w3-cell-row">
-        <h3>Логи теста</h3>
-    <%
-      if (pd.CURRENT_TEST!=null && pd.CURRENT_TEST.logs!=null){
-    for (PD_TEST_LOG log : pd.CURRENT_TEST.logs){
-      %>
-      
-      <span class="w3-mobile">
-        <a href="<%=pd.WEB_PATH_WPD_FILES+log.LOG_IMAGE %>" target="_blank" style="height:280px;width:335px" class="w3-button w3-card w3-container w3-margin-bottom">
-          <p><%=log.LOG_AT.getDateAsYYYYMMDD_andTime("-", ":") %></p>
-          <p><%=log.LOG_MSG %></p>
-          <img src="<%=pd.WEB_PATH_WPD_FILES+log.LOG_IMAGE %>" width="270" />
-        </a>
-      </span>            
-      <%
-        }
-    }    
-  %>
-
-    
+  <% if (pd.testIsStarted()) { %>    
+      <div id="testContent"></div>
+      <script>
+       var request = new XMLHttpRequest();   
+       //refresh_content();
+       IS_SENT = false;
+       setInterval(refresh_content,1000);
+     
+       function refresh_content() {      
+         if (IS_SENT==true) return;
+         //var inputText = document.getElementById('testContent').value;
+         var data = "";
+         //alert(view);
+         request.open('GET', 'calibration.jsp');
+         request.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+         request.send(data);
+         IS_SENT = true;
+         request.onreadystatechange = function () {
+           IS_SENT = false;  
+           if (request.readyState === 4) {
+               if (request.status === 200) {
+                   document.getElementById('testContent').innerHTML=request.responseText;
+               } else {
+                   alert('Ajax Race error!');
+               }
+           }
+          };
+       };       
+      </script>   
   <% } else { %>
     <form action="index.jsp" method="post" class="w3-container w3-card-4" >
        <input name="mode" type="hidden" value="start"/>

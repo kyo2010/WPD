@@ -20,6 +20,8 @@ public class PD_TEST {
   public String  VIDEO_FILE = "";   //  NOT_DETECTED
   public String  VIDEO_FILE_FULL = "";   //  NOT_DETECTED
   public int LOGS = 0;
+  public int FRAME_INTERVAL = 300; // ms
+  public boolean is_calibrated = false;
   
   // Доступен, только для текущего теста
   public Vector<PD_TEST_LOG> logs = new Vector<PD_TEST_LOG>();
@@ -38,6 +40,7 @@ public class PD_TEST {
     new DBModelField("VIDEO_FILE").setDbFieldName("\"VIDEO_FILE\""),
     new DBModelField("VIDEO_FILE_FULL").setDbFieldName("\"VIDEO_FILE_FULL\""),
     new DBModelField("LOGS").setDbFieldName("\"LOGS\""),
+    new DBModelField("FRAME_INTERVAL").setDbFieldName("\"FRAME_INTERVAL\""),
   }); 
   
 }

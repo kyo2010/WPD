@@ -190,13 +190,16 @@ public class WebPhotoDetector implements WebPhotoDetectorEvent {
     PD_USER.dbControl.insert(con, user);
     CURRENT_USER = user;
 
+    FRAME_INTERVAL = configTools.getTIME_INTERVAL();
     PD_TEST test = new PD_TEST();
     test.FIO = user.UNAME;
     test.START_AT = new JDEDate();
     test.TEST_NAME = ui.TEST_NAME;
+    test.FRAME_INTERVAL = FRAME_INTERVAL; 
     PD_TEST.dbControl.insert(con, test);
     CURRENT_TEST = test;
     CURRENT_LOG_IMAGES = 0;
+    CURRENT_TEST.is_calibrated = false;
     
     users = PD_USER.dbControl.getMap(con,"UID", "1=1 ORDER by UID");
 
@@ -205,8 +208,7 @@ public class WebPhotoDetector implements WebPhotoDetectorEvent {
     try {
       openCameraGraber();
       if (cmeraGrabber != null) {
-        startRecorder(ui);
-        FRAME_INTERVAL = configTools.getTIME_INTERVAL();
+        startRecorder(ui);        
         cameraTimer.setDelay(FRAME_INTERVAL);
         cameraTimer.start();
       } else {
@@ -345,6 +347,7 @@ public class WebPhotoDetector implements WebPhotoDetectorEvent {
           
           PD_TOOLS.lerning();          
           users = PD_USER.dbControl.getMap(con,"UID", "1=1 ORDER by UID");
+          CURRENT_TEST.is_calibrated = true;
         }
 
         if (CURRENT_LOG_ITEM != null) {

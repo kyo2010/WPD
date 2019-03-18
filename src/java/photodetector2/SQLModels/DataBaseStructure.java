@@ -23,8 +23,7 @@ public class DataBaseStructure {
      new DBAddonStructure(1.2, "ALTER TABLE PD_TEST_LOG ADD TEST_ID INTEGER DEFAULT NULL;"),
      new DBAddonStructure(1.3, "ALTER TABLE PD_TEST ADD LOGS INTEGER NOT NULL DEFAULT 0;"),
      new DBAddonStructure(1.4, "ALTER TABLE PD_USER ADD UFILE_FOR_LEARNING VARCHAR(255) NOT NULL DEFAULT '';"),
-     
-     
+     new DBAddonStructure(1.5, "ALTER TABLE PD_TEST ADD FRAME_INTERVAL INTEGER NOT NULL DEFAULT 300;"),               
   };
 
   public static class DBAddonStructure {

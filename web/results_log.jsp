@@ -32,6 +32,8 @@
     Тестируемый : <%=test.FIO %><br/>
     Название теста : <%=test.TEST_NAME %><br/>
     Время теста : <%=t/60 %> минут <%=(t-t/60*60) %> секунд<br/>    
+    Интервал опроса камеры : <%=test.FRAME_INTERVAL %> ms<br/>        
+    
     <% if (!test.VIDEO_FILE_FULL.equals("")) { %>
       Видео : <br>
       <video controls height="300">
@@ -42,13 +44,16 @@
     <div class="w3-cell-row">
         <h3>Логи теста</h3>
     <%
-    for (PD_TEST_LOG log : logs){
+    for (PD_TEST_LOG log : logs){     
+        long time = (log.LOG_AT.getTimeInMillis()-test.START_AT.getTimeInMillis())/1000;
+        long time_in_video = (log.LOG_AT.getTimeInMillis()-test.START_AT.getTimeInMillis())/( 10*test.FRAME_INTERVAL );
       %>
       
       <span class="w3-mobile">
-        <a href="<%=pd.WEB_PATH_WPD_FILES+log.LOG_IMAGE %>" target="_blank" style="height:280px;width:335px" class="w3-button w3-card w3-container w3-margin-bottom">
-          <p><%=log.LOG_AT.getDateAsYYYYMMDD_andTime("-", ":") %></p>
-          <p><%=log.LOG_MSG %></p>
+        <a href="<%=pd.WEB_PATH_WPD_FILES+log.LOG_IMAGE %>" target="_blank" style="height:280px;width:335px" class="w3-button w3-card w3-container w3-margin-bottom">          
+          <p>Время на видео : <%=time_in_video/60 %> минут <%=(time_in_video-time_in_video/60*60) %> секунд<br/>          
+             Время с начала теста : <%=time/60 %> минут <%=(time-time/60*60) %> секунд<br/>         
+             <%=log.LOG_MSG%></p>
           <img src="<%=pd.WEB_PATH_WPD_FILES+log.LOG_IMAGE %>" width="270" />
         </a>
       </span>            

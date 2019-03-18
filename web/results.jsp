@@ -54,7 +54,7 @@
            <td><a href="results_log.jsp?test_id=<%=test.TEST_ID %>"><%=test.START_AT.getDateAsYYYYMMDD_andTime("-", ":") %></a></td>
            <td> 
                <a href="results_log.jsp?test_id=<%=test.TEST_ID %>">Подробнее</a>
-               <a class="w3-button w3-red" href="#" onclick="javascript:cfm('Вы уверены, что хотите удалить результаты теста?','results.jsp?mode=del&test_id=<%=test.TEST_ID %>')">Удалить</a>           
+               <a class="w3-button w3-red" href="#" onclick="javascript:cfm('Вы уверены, что хотите удалить результаты теста?','results.jsp?mode=del&test_id=<%=test.TEST_ID %>')">Заявка на удаление</a>           
            </td>
            
            
