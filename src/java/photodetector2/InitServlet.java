@@ -25,15 +25,8 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class InitServlet extends HttpServlet {
 
-  /**
-   * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-   * methods.
-   *
-   * @param request servlet request
-   * @param response servlet response
-   * @throws ServletException if a servlet-specific error occurs
-   * @throws IOException if an I/O error occurs
-   */
+  //private WebSocketFactory _wsFactory;
+  
   protected void processRequest(HttpServletRequest request, HttpServletResponse response)
           throws ServletException, IOException {
     response.setContentType("text/html;charset=UTF-8");
@@ -64,6 +57,10 @@ public class InitServlet extends HttpServlet {
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
           throws ServletException, IOException {
     processRequest(request, response);
+    
+    /* if (_wsFactory.acceptWebSocket(request,response)) return;
+     response.sendError(HttpServletResponse.SC_SERVICE_UNAVAILABLE,
+                        "Websocket only");*/
   }
 
   /**
@@ -103,6 +100,26 @@ public class InitServlet extends HttpServlet {
   @Override
   public void init(ServletConfig config) throws ServletException {
     super.init(config); //To change body of generated methods, choose Tools | Templates.
+        
+    // Create and configure WS factory
+    /*_wsFactory=new WebSocketFactory(new WebSocketFactory.Acceptor()
+    {
+      public boolean checkOrigin(HttpServletRequest request, String origin)
+      {
+        // Allow all origins
+        return true;
+      }
+ 
+      public WebSocket doWebSocketConnect(HttpServletRequest request, String protocol)
+      {
+         if ("chat".equals(protocol))
+           return new ChatWebSocket();
+         return null;
+      }
+    });
+    _wsFactory.setBufferSize(4096);
+    _wsFactory.setMaxIdleTime(60000);*/
+    
     /** Сначала думал  здесь иницилизировать основной объект приложения, 
      *  но почему то в разные ClassLoader (для Servlet и JSP) 
      *  и OPEN CV dll не могут быть загружены дважды в разные ClassLoader
